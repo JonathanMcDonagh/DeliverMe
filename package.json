@@ -18,12 +18,13 @@
     "mongodb-uri": "^0.9.7",
     "mongoose": "^5.7.6",
     "morgan": "~1.9.1",
-    "test": "^0.6.0"
-  },
-  "devDependencies": {
+    "test": "^0.6.0",
     "chai": "^4.0.2",
     "cross-env": "^6.0.3",
     "mocha": "^6.2.0",
     "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+
   }
 }
