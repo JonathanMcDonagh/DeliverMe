@@ -1,4 +1,6 @@
+
 /* eslint-disable no-undef */
+/*
 let Driver = require("../models/drivers")
 let Job = require("../models/jobs")
 let bcrypt = require("bcryptjs")
@@ -206,3 +208,4 @@ router.findJobsAssociatedWithDriver = (req, res) => {
 }
 
 module.exports = router
+*/

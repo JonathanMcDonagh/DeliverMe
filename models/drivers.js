@@ -1,3 +1,4 @@
+/*
 let mongoose = require("mongoose")
 
 let DriverSchema = new mongoose.Schema({
@@ -26,3 +27,4 @@ let DriverSchema = new mongoose.Schema({
 mongoose.set("useCreateIndex", true)
 
 module.exports = mongoose.model("Drier", DriverSchema)
+*/
