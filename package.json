@@ -20,7 +20,10 @@
     "mongodb-uri": "^0.9.7",
     "mongoose": "^5.7.6",
     "morgan": "~1.9.1",
-    "test": "^0.6.0"
+    "test": "^0.6.0",
+    "bcryptjs": "latest",
+    "jsonwebtoken": "latest",
+    "dotenv": "latest"
   },
   "devDependencies": {
     "chai": "^4.0.2",
