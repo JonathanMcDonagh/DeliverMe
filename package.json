@@ -7,13 +7,15 @@
     "test": "cross-env NODE_ENV=test mocha --exit"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
-    "fuse.js": "^3.4.5",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "mongodb": "^3.3.3",
     "mongodb-memory-server": "^6.0.1",
