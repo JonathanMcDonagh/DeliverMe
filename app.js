@@ -6,6 +6,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var app = express();
 const jobs = require("./routes/jobs");
+const drivers = require("./routes/drivers");
+
 
 const cors = require("cors");
 
@@ -46,6 +48,19 @@ app.put('/job/:id/update', jobs.updateJob); //Updates job
 //Delete (jobs)
 app.delete('/jobs/:id', jobs.deleteJob); //Deletes job
 
+
+//(Drivers)
+//GET
+app.get("/drivers", drivers.findAll)
+app.get("/drivers/:id/jobs", drivers.findJobsAssociatedWithDriver)
+app.get("/drivers/:id", drivers.findOne)
+//POST
+app.post("/drivers/register", drivers.addDriver)
+app.post("/drivers/login", drivers.login)
+//PUT
+app.put("/drivers/:id/update", drivers.updateDriver)
+//DELETE
+app.delete("/drivers/:id", drivers.deleteDriver)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
