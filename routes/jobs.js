@@ -103,4 +103,30 @@ router.deleteJob = (req, res) => {
 };
 
 
+router.findJobsAssociatedWithUser = (req, res) => {
+    Job.findById(req.params.id, function (err) {
+        if (err) {
+            res.status(404).json({
+                message: "User not found by id",
+                errmsg: err
+            })
+        } else {
+            Job.find({
+                userId: req.params.id
+            }, function (err, jobs) {
+                if (err) {
+                    res.json(err)
+                } else if (jobs.length > 0) {
+                    res.json(jobs)
+                } else {
+                    res.json({
+                        message: "No jobs associated with this user"
+                    })
+                }
+            })
+        }
+    })
+}
+
+
 module.exports = router;
