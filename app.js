@@ -49,17 +49,16 @@ app.put('/job/:id/update', jobs.updateJob); //Updates job
 app.delete('/jobs/:id', jobs.deleteJob); //Deletes job
 
 
-//(Drivers)
-//GET
+// routes for drivers
 app.get("/drivers", drivers.findAll);
 app.get("/drivers/:id/jobs", drivers.findJobsAssociatedWithDriver);
 app.get("/drivers/:id", drivers.findOne);
-//POST
-app.post("/drivers/register", drivers.addDriver);
+
+app.post("/drivers/register", drivers.addDriver)
 app.post("/drivers/login", drivers.login);
-//PUT
+
 app.put("/drivers/:id/update", drivers.updateDriver);
-//DELETE
+
 app.delete("/drivers/:id", drivers.deleteDriver);
 
 // catch 404 and forward to error handler

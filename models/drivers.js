@@ -1,11 +1,11 @@
 let mongoose = require("mongoose")
 
 let DriverSchema = new mongoose.Schema({
-    firstname: {
+    fname: {
         type: String,
         required: true
     },
-    lastname: {
+    lname: {
         type: String,
         required: true
     },
@@ -25,4 +25,4 @@ let DriverSchema = new mongoose.Schema({
 
 mongoose.set("useCreateIndex", true)
 
-module.exports = mongoose.model("Drier", DriverSchema)
+module.exports = mongoose.model("Driver", DriverSchema)

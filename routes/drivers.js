@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
 let Driver = require("../models/drivers")
 let Job = require("../models/jobs")
+let express = require("express")
+let router = express.Router()
 let bcrypt = require("bcryptjs")
 let jwt = require("jsonwebtoken")
 let dotenv = require("dotenv")
-let express = require("express")
-let router = express.Router()
 
 dotenv.config()
 
@@ -16,10 +17,10 @@ router.findAll = (req, res) => {
             res.send(err)
         } else if (drivers.length === 0) {
             res.json({
-                message: "Driver doesnt exist"
+                message: "Driver doesn't exist"
             })
         } else {
-            res.send(drivers,null,5);
+            res.send(JSON.stringify(drivers, null, 5))
         }
     })
 }
@@ -32,15 +33,15 @@ router.findOne = (req, res) => {
     }, function (err, drivers) {
         if (err) {
             res.status(404).send({
-                message: "Driver was not found",
+                message: "Driver not found",
                 errmsg: err
             })
         } else if (drivers.length === 0) {
             res.json({
-                message: "Driver does not exist"
+                message: "Driver doesn't exist"
             })
         } else {
-            res.send(drivers,null,5);
+            res.send(JSON.stringify(drivers, null, 5))
         }
     })
 }
@@ -55,8 +56,8 @@ router.addDriver = (req, res) => {
             })
         } else {
             let driver = new Driver({
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
+                fname: req.body.fname,
+                lname: req.body.lname,
                 email: req.body.email,
                 password: hash
             })
@@ -80,23 +81,30 @@ router.addDriver = (req, res) => {
 router.login = (req, res) => {
     Driver.findOne({email: req.body.email}).then(driver => {
         if (driver.length < 1) {
+            // Error 401: Unauthorised
             return res.status(401).send({
-                message: "Authentication failed please ensure correct info is entered",
+                message: "Authentication failed, Please ensure the email and password are correct",
                 errmsg: err
             })
         }
         bcrypt.compare(req.body.password, driver.password, (err, result) => {
             if (err) {
                 return res.status(401).send({
-                    message: "Authentication failed please ensure correct info is entered",
+                    message: "Authentication failed, Please ensure the email and password are correct",
                     errmsg: err
                 })
             }
+            /*if (driver) {
+                return res.status(401).send({
+                    message: 'Already logged in',
+                    errmsg: err
+                })
+            }*/
             if (result) {
                 const payload = {
                     _id: driver._id,
-                    firstname: driver.firstname,
-                    lastname: driver.lastname,
+                    fname: driver.fname,
+                    lname: driver.lname,
                     email: driver.email
                 }
 
@@ -111,7 +119,7 @@ router.login = (req, res) => {
                 })
             }
             res.status(401).send({
-                message: "Authentication failed please ensure correct info is entered",
+                message: "Authentication failed, Please ensure the email and password are correct",
                 errmsg: err
             })
         })
@@ -130,11 +138,11 @@ router.updateDriver = (req, res) => {
                 message: "Cannot find driver associated with that id"
             })
         } else {
-            if (req.body.firstname) {
-                drivers.firstname = req.body.firstname
+            if (req.body.fname) {
+                drivers.fname = req.body.fname
             }
-            if (req.body.lastname) {
-                drivers.lastname = req.body.lastname
+            if (req.body.lname) {
+                drivers.lname = req.body.lname
             }
             if (req.body.email) {
                 drivers.email = req.body.email
@@ -166,7 +174,7 @@ router.deleteDriver = (req, res) => {
             })
         } else {
             Job.deleteMany({
-                driverID: req.params.id
+                ownerID: req.params.id
             }, function (err) {
                 if (err) {
                     res.json(err)
@@ -188,15 +196,15 @@ router.findJobsAssociatedWithDriver = (req, res) => {
             })
         } else {
             Job.find({
-                driverID: req.params.id
-            }, function (err, jobs) {
+                ownerID: req.params.id
+            }, function (err, pets) {
                 if (err) {
                     res.json(err)
-                } else if (jobs.length > 0) {
-                    res.json(jobs)
+                } else if (pets.length > 0) {
+                    res.json(pets)
                 } else {
                     res.json({
-                        message: "No jobs associated with this driver"
+                        message: "No pets associated with this driver"
                     })
                 }
             })
