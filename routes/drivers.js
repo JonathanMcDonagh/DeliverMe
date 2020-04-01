@@ -174,7 +174,7 @@ router.deleteDriver = (req, res) => {
             })
         } else {
             Job.deleteMany({
-                ownerID: req.params.id
+                driverID: req.params.id
             }, function (err) {
                 if (err) {
                     res.json(err)
@@ -187,29 +187,5 @@ router.deleteDriver = (req, res) => {
     })
 }
 
-router.findJobsAssociatedWithDriver = (req, res) => {
-    Driver.findById(req.params.id, function (err) {
-        if (err) {
-            res.status(404).json({
-                message: "Driver not found by id",
-                errmsg: err
-            })
-        } else {
-            Job.find({
-                ownerID: req.params.id
-            }, function (err, pets) {
-                if (err) {
-                    res.json(err)
-                } else if (pets.length > 0) {
-                    res.json(pets)
-                } else {
-                    res.json({
-                        message: "No pets associated with this driver"
-                    })
-                }
-            })
-        }
-    })
-}
 
 module.exports = router

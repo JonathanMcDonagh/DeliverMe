@@ -7,7 +7,7 @@ var indexRouter = require('./routes/index');
 var app = express();
 const jobs = require("./routes/jobs");
 const drivers = require("./routes/drivers");
-
+const admins = require("./routes/admins")
 
 const cors = require("cors");
 
@@ -38,6 +38,7 @@ app.get('/student', function (req, res) {
 //GET
 app.get('/jobs', jobs.findAll); //Find all jobs
 app.get('/jobs/:id', jobs.findById); //Find by ID
+app.get('/jobs/:usertoken', jobs.fetchJobsByUser); //Find jobs by user
 
 //POST (jobs)
 app.post('/jobs',jobs.addJob); //Adds job
@@ -51,15 +52,18 @@ app.delete('/jobs/:id', jobs.deleteJob); //Deletes job
 
 // routes for drivers
 app.get("/drivers", drivers.findAll);
-app.get("/drivers/:id/jobs", drivers.findJobsAssociatedWithDriver);
 app.get("/drivers/:id", drivers.findOne);
 
-app.post("/drivers/register", drivers.addDriver)
+app.post("/drivers/register", drivers.addDriver);
 app.post("/drivers/login", drivers.login);
 
 app.put("/drivers/:id/update", drivers.updateDriver);
 
 app.delete("/drivers/:id", drivers.deleteDriver);
+
+// routes for admin
+app.post("/admins/login", admins.adminLogin);
+app.post("/admins/register", admins.addAdmin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

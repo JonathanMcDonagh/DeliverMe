@@ -56,10 +56,12 @@ router.addJob = (req, res) => {
     job.deliveryFee = req.body.deliveryFee;
     job.dropOffLocation = req.body.dropOffLocation;
     job.dropOffTime = req.body.dropOffTime;
+    job.phoneNum = req.body.phoneNum;
+    job.usertoken = req.body.usertoken;
 
     job.save(function(err) {
         if (err)
-            res.json({ message: 'Job NOT Added!', errmsg : err } );
+            res.json({ message: 'Job NOT Added!', errmsg : err });
         else
             res.json({ message: 'Job Successfully Added!', data: job });
     });
@@ -79,6 +81,8 @@ router.updateJob = (req, res) => {
             job.deliveryFee = req.body.deliveryFee;
             job.dropOffLocation = req.body.dropOffLocation;
             job.dropOffTime = req.body.dropOffTime;
+            job.phoneNum = req.body.phoneNum;
+            job.usertoken = req.body.usertoken;
 
             job.save(function (err) {
                 if (err)
@@ -101,6 +105,33 @@ router.deleteJob = (req, res) => {
             res.json({ message: 'Job Successfully Deleted!'});
     });
 };
+
+router.fetchJobsByUser = (req, res) => {
+    Job.findById(req.params.usertoken, function (err) {
+        if (err) {
+            res.status(404).json({
+                message: "Job not found by id",
+                errmsg: err
+            })
+        } else {
+            Job.find({
+                usertoken: req.params.usertoken
+            }, function (err, jobs) {
+                if (err) {
+                    res.json(err)
+                } else if (jobs.length > 0) {
+                    res.json(jobs)
+                } else {
+                    res.json({
+                        message: "No jobs associated with this user"
+                    })
+                }
+            })
+        }
+    })
+}
+
+
 
 
 module.exports = router;
