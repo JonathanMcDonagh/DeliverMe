@@ -8,7 +8,8 @@ let DeliverMeSchema = new mongoose.Schema({
             dropOffLocation : String,
             dropOffTime: String,
             phoneNum: String,
-            usertoken: String
+            usertoken: String,
+            profilephoto: String
     },
     { collection: 'jobs' });
 

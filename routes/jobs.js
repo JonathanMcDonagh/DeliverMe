@@ -68,6 +68,7 @@ router.addJob = (req, res) => {
     job.dropOffTime = req.body.dropOffTime;
     job.phoneNum = req.body.phoneNum;
     job.usertoken = req.body.usertoken;
+    job.profilephoto = req.body.profilephoto;
 
     job.save(function(err) {
         if (err)
@@ -108,6 +109,9 @@ router.updateJob = (req, res) => {
             }
             if (req.body.usertoken) {
                 jobs.usertoken = req.body.usertoken
+            }
+            if (req.body.profilephoto) {
+                jobs.profilephoto = req.body.profilephoto
             }
 
             jobs.save(function (err) {
