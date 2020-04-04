@@ -1,5 +1,6 @@
 let mongoose = require("mongoose")
 
+// Driver Schema
 let DriverSchema = new mongoose.Schema({
     fname: {
         type: String,

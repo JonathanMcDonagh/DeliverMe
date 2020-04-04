@@ -11,7 +11,6 @@ const admins = require("./routes/admins")
 
 const cors = require("cors");
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -24,7 +23,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 
-
 //Custom Routes
 //Student Details
 app.get('/student', function (req, res) {
@@ -36,36 +34,44 @@ app.get('/student', function (req, res) {
 
 //(Jobs)
 // routes for jobs
+// GET
 app.get('/jobs', jobs.getAll);
 app.get('/jobs/user/:usertoken', jobs.findAll); //Find all jobs
 app.get('/jobs/:id', jobs.findOne);
 
+// POST
 app.post('/jobs', jobs.addJob); //Adds job
 
+// PUT
 app.put('/jobs/:id/update', jobs.updateJob); //Updates job
 
+// DELETE
 app.delete('/jobs/:id', jobs.deleteJob); //Deletes job
 
+
 // routes for drivers
+// GET
 app.get("/drivers", drivers.findAll);
 app.get("/drivers/:id", drivers.findOne);
 
+// POST
 app.post("/drivers/register", drivers.addDriver);
 app.post("/drivers/login", drivers.login);
 
-app.put("/drivers/:id/update", drivers.updateDriver);
-
+// DELETE
 app.delete("/drivers/:id", drivers.deleteDriver);
 
+
 // routes for admin
+// POST
 app.post("/admins/login", admins.adminLogin);
 app.post("/admins/register", admins.addAdmin);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
 });
-
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -77,6 +83,5 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-
 
 module.exports = app;

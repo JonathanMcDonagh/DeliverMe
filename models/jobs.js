@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 
+// Job Schema
 let DeliverMeSchema = new mongoose.Schema({
             name : String,
             deliveryRequest : String,

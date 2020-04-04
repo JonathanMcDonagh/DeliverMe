@@ -6,9 +6,9 @@ let router = express.Router()
 let bcrypt = require("bcryptjs")
 let jwt = require("jsonwebtoken")
 let dotenv = require("dotenv")
-
 dotenv.config()
 
+// Find all drivers
 router.findAll = (req, res) => {
     res.setHeader("Content-Type", "application/json")
 
@@ -25,12 +25,12 @@ router.findAll = (req, res) => {
     })
 }
 
+// Find one driver
 router.findOne = (req, res) => {
     res.setHeader("Content-Type", "application/json")
 
     Driver.find({
-        "_id": req.params.id
-    }, function (err, drivers) {
+        "_id": req.params.id}, function (err, drivers) {
         if (err) {
             res.status(404).send({
                 message: "Driver not found",
@@ -46,6 +46,7 @@ router.findOne = (req, res) => {
     })
 }
 
+// To add a driver
 router.addDriver = (req, res) => {
     res.setHeader("Content-Type", "application/json")
 
@@ -78,10 +79,10 @@ router.addDriver = (req, res) => {
     })
 }
 
+// To log in a driver
 router.login = (req, res) => {
     Driver.findOne({email: req.body.email}).then(driver => {
         if (driver.length < 1) {
-            // Error 401: Unauthorised
             return res.status(401).send({
                 message: "Authentication failed, Please ensure the email and password are correct",
                 errmsg: err
@@ -125,40 +126,7 @@ router.login = (req, res) => {
         })
 }
 
-router.updateDriver = (req, res) => {
-    Driver.findById(req.params.id, function (err, drivers) {
-        if (err) {
-            res.status(404).send({
-                message: "Cannot find driver associated with that id"
-            })
-        } else {
-            if (req.body.fname) {
-                drivers.fname = req.body.fname
-            }
-            if (req.body.lname) {
-                drivers.lname = req.body.lname
-            }
-            if (req.body.email) {
-                drivers.email = req.body.email
-            }
-
-            drivers.save(function (err) {
-                if (err) {
-                    res.json({
-                        message: "Driver not updated",
-                        errmsg: err
-                    })
-                } else {
-                    res.json({
-                        message: "Driver updated successfully",
-                        data: drivers
-                    })
-                }
-            })
-        }
-    })
-}
-
+// To delete a driver
 router.deleteDriver = (req, res) => {
     Driver.findByIdAndRemove(req.params.id, function (err) {
         if (err) {
@@ -167,9 +135,7 @@ router.deleteDriver = (req, res) => {
                 errmsg: err
             })
         } else {
-            Job.deleteMany({
-                driverID: req.params.id
-            }, function (err) {
+            Job.deleteMany({ driverID: req.params.id}, function (err) {
                 if (err) {
                     res.json(err)
                 }
@@ -180,6 +146,5 @@ router.deleteDriver = (req, res) => {
         }
     })
 }
-
 
 module.exports = router

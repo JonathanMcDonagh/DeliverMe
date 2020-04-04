@@ -3,7 +3,6 @@ let router = express.Router();
 let mongoose = require('mongoose');
 let uriUtil = require('mongodb-uri');
 let Job = require('../models/jobs');
-let Fuse = require('fuse.js');
 
 var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/delivermedb?retryWrites=true&w=majority';
 
@@ -18,7 +17,7 @@ db.once('open', function () {
     console.log('Successfully connected to DeliverMe Database as ' + db.name);
 });
 
-//Find all
+//Find all users
 router.getAll = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
@@ -30,7 +29,7 @@ router.getAll = (req, res) => {
     });
 };
 
-//Find all
+//Find all users based on usertoken / userid
 router.findAll = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
@@ -43,8 +42,8 @@ router.findAll = (req, res) => {
 };
 
 
+// Find all drivers
 router.findOne = (req, res) => {
-
     res.setHeader('Content-Type', 'application/json');
 
     Job.find({ "_id" : req.params.id },function(err, job) {
@@ -77,7 +76,6 @@ router.addJob = (req, res) => {
             res.json({ message: 'Job Successfully Added!', data: job });
     });
 };
-
 
 //Updates job
 router.updateJob = (req, res) => {

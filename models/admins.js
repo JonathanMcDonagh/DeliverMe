@@ -1,5 +1,6 @@
 let mongoose = require("mongoose")
 
+// Admin Schema
 let AdminSchema = new mongoose.Schema({
     email: {
         type: String,
