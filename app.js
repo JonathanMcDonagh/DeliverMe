@@ -35,20 +35,16 @@ app.get('/student', function (req, res) {
 });
 
 //(Jobs)
-//GET
-app.get('/jobs', jobs.findAll); //Find all jobs
-app.get('/jobs/:id', jobs.findById); //Find by ID
-app.get('/jobs/:usertoken', jobs.fetchJobsByUser); //Find jobs by user
+// routes for jobs
+app.get('/jobs', jobs.getAll);
+app.get('/jobs/user/:usertoken', jobs.findAll); //Find all jobs
+app.get('/jobs/:id', jobs.findOne);
 
-//POST (jobs)
-app.post('/jobs',jobs.addJob); //Adds job
+app.post('/jobs', jobs.addJob); //Adds job
 
-//PUT (jobs)
-app.put('/job/:id/update', jobs.updateJob); //Updates job
+app.put('/jobs/:id/update', jobs.updateJob); //Updates job
 
-//Delete (jobs)
 app.delete('/jobs/:id', jobs.deleteJob); //Deletes job
-
 
 // routes for drivers
 app.get("/drivers", drivers.findAll);

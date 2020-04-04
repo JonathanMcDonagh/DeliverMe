@@ -7,7 +7,6 @@ let Fuse = require('fuse.js');
 
 var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/delivermedb?retryWrites=true&w=majority';
 
-
 // noinspection JSIgnoredPromiseFromCall
 mongoose.connect(mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 let db = mongoose.connection;
@@ -19,9 +18,8 @@ db.once('open', function () {
     console.log('Successfully connected to DeliverMe Database as ' + db.name);
 });
 
-
 //Find all
-router.findAll = (req, res) => {
+router.getAll = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     Job.find(function(err, jobs) {
@@ -32,18 +30,30 @@ router.findAll = (req, res) => {
     });
 };
 
+//Find all
+router.findAll = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
 
-//Find one by ID
-router.findById = (req, res) => {
+    Job.find({ "usertoken" : req.params.usertoken },function(err, jobs) {
+        if (err)
+            res.send(err);
+        else
+            res.send(JSON.stringify(jobs,null,5));
+    });
+};
+
+
+router.findOne = (req, res) => {
+
     res.setHeader('Content-Type', 'application/json');
 
     Job.find({ "_id" : req.params.id },function(err, job) {
         if (err)
             res.json({ message: 'Job NOT Found!', errmsg : err } );
         else
-            res.send(job,null,5);
+            res.send(JSON.stringify(job,null,5));
     });
-};
+}
 
 //Add an job
 router.addJob = (req, res) => {
@@ -71,29 +81,44 @@ router.addJob = (req, res) => {
 //Updates job
 router.updateJob = (req, res) => {
 
-    Job.findById(req.params.id, function(err,job) {
+    Job.findById(req.params.id, function (err, jobs) {
         if (err)
-            res.json({ message: 'Job NOT Found!', errmsg : err } );
+            res.json({
+                message: 'Job NOT Found!',
+                errmsg : err
+            });
         else {
-            job.name = req.body.name;
-            job.deliveryRequest = req.body.deliveryRequest;
-            job.place = req.body.place;
-            job.deliveryFee = req.body.deliveryFee;
-            job.dropOffLocation = req.body.dropOffLocation;
-            job.dropOffTime = req.body.dropOffTime;
-            job.phoneNum = req.body.phoneNum;
-            job.usertoken = req.body.usertoken;
+            if (req.body.name) {
+                jobs.name = req.body.name
+            }
+            if (req.body.deliveryRequest) {
+                jobs.deliveryRequest = req.body.deliveryRequest
+            }
+            if (req.body.place) {
+                jobs.place = req.body.place
+            }
+            if (req.body.deliveryFee) {
+                jobs.deliveryFee = req.body.deliveryFee
+            }
+            if (req.body.dropOffLocation) {
+                jobs.dropOffLocation = req.body.dropOffLocation
+            }
+            if (req.body.dropOffTime) {
+                jobs.dropOffTime = req.body.dropOffTime
+            }
+            if (req.body.usertoken) {
+                jobs.usertoken = req.body.usertoken
+            }
 
-            job.save(function (err) {
+            jobs.save(function (err) {
                 if (err)
                     res.json({ message: 'Job NOT updated!', errmsg : err } );
                 else
-                    res.json({ message: 'Job Successfully updated!', data: job });
+                    res.json({ message: 'Job Successfully updated!', data: jobs });
             });
         }
     });
 };
-
 
 //Deletes Job
 router.deleteJob = (req, res) => {
@@ -105,33 +130,5 @@ router.deleteJob = (req, res) => {
             res.json({ message: 'Job Successfully Deleted!'});
     });
 };
-
-router.fetchJobsByUser = (req, res) => {
-    Job.findById(req.params.usertoken, function (err) {
-        if (err) {
-            res.status(404).json({
-                message: "Job not found by id",
-                errmsg: err
-            })
-        } else {
-            Job.find({
-                usertoken: req.params.usertoken
-            }, function (err, jobs) {
-                if (err) {
-                    res.json(err)
-                } else if (jobs.length > 0) {
-                    res.json(jobs)
-                } else {
-                    res.json({
-                        message: "No jobs associated with this user"
-                    })
-                }
-            })
-        }
-    })
-}
-
-
-
 
 module.exports = router;

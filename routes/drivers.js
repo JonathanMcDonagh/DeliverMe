@@ -94,12 +94,6 @@ router.login = (req, res) => {
                     errmsg: err
                 })
             }
-            /*if (driver) {
-                return res.status(401).send({
-                    message: 'Already logged in',
-                    errmsg: err
-                })
-            }*/
             if (result) {
                 const payload = {
                     _id: driver._id,
