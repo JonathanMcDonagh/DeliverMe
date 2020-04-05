@@ -6,6 +6,7 @@ let Job = require('../models/jobs');
 
 var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/delivermedb?retryWrites=true&w=majority';
 
+
 // noinspection JSIgnoredPromiseFromCall
 mongoose.connect(mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 let db = mongoose.connection;
@@ -16,6 +17,7 @@ db.on('error', function (err) {
 db.once('open', function () {
     console.log('Successfully connected to DeliverMe Database as ' + db.name);
 });
+
 
 //Find all users
 router.getAll = (req, res) => {
@@ -28,6 +30,7 @@ router.getAll = (req, res) => {
             res.send(jobs,null,5);
     });
 };
+
 
 //Find all users based on usertoken / userid
 router.findAll = (req, res) => {
@@ -54,6 +57,7 @@ router.findOne = (req, res) => {
     });
 }
 
+
 //Add an job
 router.addJob = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
@@ -68,6 +72,7 @@ router.addJob = (req, res) => {
     job.phoneNum = req.body.phoneNum;
     job.usertoken = req.body.usertoken;
     job.profilephoto = req.body.profilephoto;
+    job.jobStatus = req.body.jobStatus;
 
     job.save(function(err) {
         if (err)
@@ -110,6 +115,9 @@ router.updateJob = (req, res) => {
             }
             if (req.body.profilephoto) {
                 jobs.profilephoto = req.body.profilephoto
+            }
+            if (req.body.jobStatus) {
+                jobs.jobStatus = req.body.jobStatus
             }
 
             jobs.save(function (err) {
