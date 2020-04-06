@@ -52,9 +52,7 @@ router.addDriver = (req, res) => {
 
     bcrypt.hash(req.body.password, 10, (err, hash) => {
         if (err) {
-            return res.status(500).json({
-                error: err
-            })
+            return res.status(500).json({ error: err })
         } else {
             let driver = new Driver({
                 fname: req.body.fname,
@@ -64,15 +62,9 @@ router.addDriver = (req, res) => {
             })
             driver.save(function (err) {
                 if (err) {
-                    res.json({
-                        message: "Driver not added",
-                        errmsg: err
-                    })
+                    res.json({ message: "Driver not added", errmsg: err })
                 } else {
-                    res.json({
-                        message: "Driver added to database",
-                        data: driver
-                    })
+                    res.json({ message: "Driver added to database", data: driver })
                 }
             })
         }

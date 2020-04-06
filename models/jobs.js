@@ -11,7 +11,8 @@ let DeliverMeSchema = new mongoose.Schema({
             phoneNum: String,
             usertoken: String,
             profilephoto: String,
-            jobStatus: String
+            jobStatus: String,
+            jobMessage: String
     },
     { collection: 'jobs' });
 
