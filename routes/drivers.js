@@ -58,6 +58,7 @@ router.addDriver = (req, res) => {
                 fname: req.body.fname,
                 lname: req.body.lname,
                 email: req.body.email,
+                uploadURL: req.body.uploadURL,
                 password: hash
             })
             driver.save(function (err) {
@@ -92,7 +93,8 @@ router.login = (req, res) => {
                     _id: driver._id,
                     fname: driver.fname,
                     lname: driver.lname,
-                    email: driver.email
+                    email: driver.email,
+                    uploadURL: driver.uploadURL
                 }
 
                 const token = jwt.sign(payload, process.env.JWT_KEY, {
