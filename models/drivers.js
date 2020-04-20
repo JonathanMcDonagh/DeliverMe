@@ -21,8 +21,8 @@ let DriverSchema = new mongoose.Schema({
         required: true
     },
     uploadURL: {
-        type: String
-    }
+        type: String,
+        required: true },
 }, {
     collection: "drivers"
 })

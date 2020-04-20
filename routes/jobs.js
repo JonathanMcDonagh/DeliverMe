@@ -4,8 +4,8 @@ let mongoose = require('mongoose');
 let uriUtil = require('mongodb-uri');
 let Job = require('../models/jobs');
 
+// MongoDB Connection
 var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/delivermedb?retryWrites=true&w=majority';
-
 
 // noinspection JSIgnoredPromiseFromCall
 mongoose.connect(mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -19,7 +19,7 @@ db.once('open', function () {
 });
 
 
-//Find all users
+//Find all jobs
 router.getAll = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
@@ -45,7 +45,7 @@ router.findAll = (req, res) => {
 };
 
 
-// Find all drivers
+// Find all jobs
 router.findOne = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 

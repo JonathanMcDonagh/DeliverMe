@@ -1,10 +1,9 @@
 /* eslint-disable no-undef */
-let Driver = require("../models/drivers")
-let Job = require("../models/jobs")
 let express = require("express")
 let router = express.Router()
 let bcrypt = require("bcryptjs")
 let jwt = require("jsonwebtoken")
+let Driver = require("../models/drivers")
 let dotenv = require("dotenv")
 dotenv.config()
 
@@ -15,10 +14,9 @@ router.findAll = (req, res) => {
     Driver.find(function (err, drivers) {
         if (err) {
             res.send(err)
-        } else if (drivers.length === 0) {
-            res.json({
-                message: "Driver doesn't exist"
-            })
+        }
+        else if (drivers.length === 0) {
+            res.json({ message: "Driver doesn't exist" })
         } else {
             res.send(JSON.stringify(drivers, null, 5))
         }
@@ -29,17 +27,11 @@ router.findAll = (req, res) => {
 router.findOne = (req, res) => {
     res.setHeader("Content-Type", "application/json")
 
-    Driver.find({
-        "_id": req.params.id}, function (err, drivers) {
+    Driver.find({"_id": req.params.id}, function (err, drivers) {
         if (err) {
-            res.status(404).send({
-                message: "Driver not found",
-                errmsg: err
-            })
+            res.status(404).send({ message: "Driver not found", errmsg: err })
         } else if (drivers.length === 0) {
-            res.json({
-                message: "Driver doesn't exist"
-            })
+            res.json({ message: "Driver doesn't exist" })
         } else {
             res.send(JSON.stringify(drivers, null, 5))
         }
@@ -59,6 +51,7 @@ router.addDriver = (req, res) => {
                 lname: req.body.lname,
                 email: req.body.email,
                 uploadURL: req.body.uploadURL,
+                uploadURL2: req.body.uploadURL2,
                 password: hash
             })
             driver.save(function (err) {
@@ -94,7 +87,8 @@ router.login = (req, res) => {
                     fname: driver.fname,
                     lname: driver.lname,
                     email: driver.email,
-                    uploadURL: driver.uploadURL
+                    uploadURL: driver.uploadURL,
+                    uploadURL2: req.body.uploadURL2
                 }
 
                 const token = jwt.sign(payload, process.env.JWT_KEY, {
@@ -129,7 +123,7 @@ router.deleteDriver = (req, res) => {
                 errmsg: err
             })
         } else {
-            Job.deleteMany({ driverID: req.params.id}, function (err) {
+            Driver.deleteMany({ driverID: req.params.id}, function (err) {
                 if (err) {
                     res.json(err)
                 }
