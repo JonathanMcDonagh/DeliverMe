@@ -5,7 +5,7 @@ let uriUtil = require('mongodb-uri');
 let Job = require('../models/jobs');
 
 // MongoDB Connection
-var mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/delivermedb?retryWrites=true&w=majority';
+let mongodbUri = 'mongodb+srv://jonathanmcdonagh:20074520@web-app-cluster-uct5k.mongodb.net/delivermedb?retryWrites=true&w=majority';
 
 // noinspection JSIgnoredPromiseFromCall
 mongoose.connect(mongodbUri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -62,7 +62,7 @@ router.findOne = (req, res) => {
 router.addJob = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
-    var job = new Job();
+    let job = new Job();
     job.name = req.body.name;
     job.deliveryRequest = req.body.deliveryRequest;
     job.place = req.body.place;
@@ -89,10 +89,7 @@ router.updateJob = (req, res) => {
 
     Job.findById(req.params.id, function (err, jobs) {
         if (err)
-            res.json({
-                message: 'Job NOT Found!',
-                errmsg : err
-            });
+            res.json({ message: 'Job NOT Found!', errmsg : err });
         else {
             if (req.body.name) {
                 jobs.name = req.body.name

@@ -9,33 +9,34 @@ dotenv.config()
 
 // Find all drivers
 router.findAll = (req, res) => {
-    res.setHeader("Content-Type", "application/json")
+    res.setHeader('Content-Type', 'application/json');
 
-    Driver.find(function (err, drivers) {
+    Driver.find(function(err, drivers) {
         if (err) {
-            res.send(err)
+            res.send(err);
+        } else if (drivers.length === 0) {
+            res.json({message: "No drivers can be found"})
         }
-        else if (drivers.length === 0) {
-            res.json({ message: "Driver doesn't exist" })
-        } else {
-            res.send(JSON.stringify(drivers, null, 5))
+        else {
+            res.send(drivers, null, 5);
         }
-    })
-}
+    });
+};
 
 // Find one driver
 router.findOne = (req, res) => {
-    res.setHeader("Content-Type", "application/json")
+    res.setHeader('Content-Type', 'application/json');
 
-    Driver.find({"_id": req.params.id}, function (err, drivers) {
+    Driver.find({ "_id" : req.params.id },function(err, drivers) {
         if (err) {
-            res.status(404).send({ message: "Driver not found", errmsg: err })
+            res.json({message: 'Driver NOT Found!', errmsg : err});
         } else if (drivers.length === 0) {
-            res.json({ message: "Driver doesn't exist" })
-        } else {
-            res.send(JSON.stringify(drivers, null, 5))
+            res.json({message: "No drivers can be found"})
         }
-    })
+        else {
+            res.send(JSON.stringify(drivers, null, 5));
+        }
+    });
 }
 
 // To add a driver
@@ -54,11 +55,12 @@ router.addDriver = (req, res) => {
                 likes: req.body.likes,
                 password: hash
             })
+
             driver.save(function (err) {
                 if (err) {
-                    res.json({ message: "Driver not added", errmsg: err })
+                    res.json({ message: "Driver not added", errmsg : err })
                 } else {
-                    res.json({ message: "Driver added to database", data: driver })
+                    res.json({ message: "Driver added to database", data : driver })
                 }
             })
         }
@@ -69,8 +71,9 @@ router.addDriver = (req, res) => {
 router.login = (req, res) => {
     Driver.findOne({email: req.body.email}).then(driver => {
         if (driver.length < 1) {
+            // If the driver is trying to login when driver length is 0
             return res.status(401).send({
-                message: "Authentication failed, Please ensure the email and password are correct",
+                message: "Authentication failed",
                 errmsg: err
             })
         }
@@ -81,6 +84,7 @@ router.login = (req, res) => {
                     errmsg: err
                 })
             }
+            // If Login success
             if (result) {
                 const payload = {
                     _id: driver._id,
@@ -88,9 +92,9 @@ router.login = (req, res) => {
                     lname: driver.lname,
                     email: driver.email,
                     uploadURL: driver.uploadURL,
-                    likes: req.body.likes //updated value
+                    likes: req.body.likes
                 }
-
+                // Json Web Token
                 const token = jwt.sign(payload, process.env.JWT_KEY, {
                     expiresIn: "1d"
                 })
@@ -114,7 +118,7 @@ router.login = (req, res) => {
         })
 }
 
-//Add like to item
+//Add like to the driver
 router.incrementLikes = (req, res) => {
 
     Driver.findById(req.params.id, function(err, driver) {
@@ -134,23 +138,13 @@ router.incrementLikes = (req, res) => {
 
 // To delete a driver
 router.deleteDriver = (req, res) => {
-    Driver.findByIdAndRemove(req.params.id, function (err) {
-        if (err) {
-            res.status(404).json({
-                message: "Driver not deleted",
-                errmsg: err
-            })
-        } else {
-            Driver.deleteMany({ driverID: req.params.id}, function (err) {
-                if (err) {
-                    res.json(err)
-                }
-            })
-            res.json({
-                message: "Driver successfully deleted"
-            })
-        }
-    })
-}
+
+    Driver.findByIdAndRemove(req.params.id, function(err) {
+        if (err)
+            res.json({ message: 'Driver NOT DELETED!', errmsg : err } );
+        else
+            res.json({ message: 'Driver Successfully Deleted!'});
+    });
+};
 
 module.exports = router

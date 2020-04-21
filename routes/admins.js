@@ -16,8 +16,10 @@ router.addAdmin = (req, res) => {
             return res.status(500).json({ error: err })
         } else {
             let admin = new Admin({
-                email: req.body.email, password: hash
+                email: req.body.email,
+                password: hash
             })
+
             admin.save(function (err) {
                 if (err) {
                     res.json({ message: "Admin not added", errmsg: err })
