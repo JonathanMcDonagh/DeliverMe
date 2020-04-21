@@ -7,7 +7,7 @@ var indexRouter = require('./routes/index');
 var app = express();
 const jobs = require("./routes/jobs");
 const drivers = require("./routes/drivers");
-const admins = require("./routes/admins")
+const admins = require("./routes/admins");
 
 const cors = require("cors");
 
@@ -57,6 +57,9 @@ app.get("/drivers/:id", drivers.findOne);
 // POST
 app.post("/drivers/register", drivers.addDriver);
 app.post("/drivers/login", drivers.login);
+
+// PUT
+app.put('/driver/:id/like', drivers.incrementLikes); //Adds like to item
 
 // DELETE
 app.delete("/drivers/:id", drivers.deleteDriver);

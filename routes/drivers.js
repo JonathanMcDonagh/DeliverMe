@@ -51,7 +51,7 @@ router.addDriver = (req, res) => {
                 lname: req.body.lname,
                 email: req.body.email,
                 uploadURL: req.body.uploadURL,
-                uploadURL2: req.body.uploadURL2,
+                likes: req.body.likes,
                 password: hash
             })
             driver.save(function (err) {
@@ -88,7 +88,7 @@ router.login = (req, res) => {
                     lname: driver.lname,
                     email: driver.email,
                     uploadURL: driver.uploadURL,
-                    uploadURL2: req.body.uploadURL2
+                    likes: req.body.likes //updated value
                 }
 
                 const token = jwt.sign(payload, process.env.JWT_KEY, {
@@ -113,6 +113,24 @@ router.login = (req, res) => {
             })
         })
 }
+
+//Add like to item
+router.incrementLikes = (req, res) => {
+
+    Driver.findById(req.params.id, function(err, driver) {
+        if (err)
+            res.json({ message: 'Item NOT Found!', errmsg : err } );
+        else {
+            driver.likes += 1;
+            driver.save(function (err) {
+                if (err)
+                    res.json({ message: 'Driver NOT liked!', errmsg : err } );
+                else
+                    res.json({ message: 'Driver Successfully liked!', data: driver });
+            });
+        }
+    });
+};
 
 // To delete a driver
 router.deleteDriver = (req, res) => {

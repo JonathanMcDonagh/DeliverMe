@@ -22,7 +22,12 @@ let DriverSchema = new mongoose.Schema({
     },
     uploadURL: {
         type: String,
-        required: true },
+        required: true
+    },
+    likes: {
+        type: Number,
+        default: 0
+    }
 }, {
     collection: "drivers"
 })
