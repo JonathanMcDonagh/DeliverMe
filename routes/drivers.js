@@ -51,6 +51,7 @@ router.addDriver = (req, res) => {
                 fname: req.body.fname,
                 lname: req.body.lname,
                 email: req.body.email,
+                driverprofilepicture: req.body.driverprofilepicture,
                 uploadURL: req.body.uploadURL,
                 likes: req.body.likes,
                 password: hash
@@ -91,6 +92,7 @@ router.login = (req, res) => {
                     fname: driver.fname,
                     lname: driver.lname,
                     email: driver.email,
+                    driverprofilepicture: driver.driverprofilepicture,
                     uploadURL: driver.uploadURL,
                     likes: req.body.likes
                 }
@@ -131,6 +133,24 @@ router.incrementLikes = (req, res) => {
                     res.json({ message: 'Driver NOT liked!', errmsg : err } );
                 else
                     res.json({ message: 'Driver Successfully liked!', data: driver });
+            });
+        }
+    });
+};
+
+//Add like to the driver
+router.reduceLikes = (req, res) => {
+
+    Driver.findById(req.params.id, function(err, driver) {
+        if (err)
+            res.json({ message: 'Item NOT Found!', errmsg : err } );
+        else {
+            driver.likes -= 1;
+            driver.save(function (err) {
+                if (err)
+                    res.json({ message: 'Driver NOT disliked!', errmsg : err } );
+                else
+                    res.json({ message: 'Driver Successfully disliked!', data: driver });
             });
         }
     });

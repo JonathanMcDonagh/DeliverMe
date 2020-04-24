@@ -60,6 +60,7 @@ app.post("/drivers/login", drivers.login);
 
 // PUT
 app.put('/driver/:id/like', drivers.incrementLikes); //Adds like to item
+app.put('/driver/:id/dislike', drivers.reduceLikes); //Adds like to item
 
 // DELETE
 app.delete("/drivers/:id", drivers.deleteDriver);

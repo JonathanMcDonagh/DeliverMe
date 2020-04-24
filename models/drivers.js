@@ -20,6 +20,10 @@ let DriverSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    driverprofilepicture: {
+        type: String,
+        required: true
+    },
     uploadURL: {
         type: String,
         required: true
