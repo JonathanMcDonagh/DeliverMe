@@ -37,6 +37,7 @@ app.get('/student', function (req, res) {
 // GET
 app.get('/jobs', jobs.getAll);
 app.get('/jobs/user/:usertoken', jobs.findAll); //Find all jobs
+app.get('/jobs/driver/:jobStatus', jobs.findAllByJobStatus); //Find all jobs
 app.get('/jobs/:id', jobs.findOne);
 
 // POST

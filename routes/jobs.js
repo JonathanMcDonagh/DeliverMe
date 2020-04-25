@@ -44,6 +44,18 @@ router.findAll = (req, res) => {
     });
 };
 
+//Find all users based on usertoken / userid
+router.findAllByJobStatus = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    Job.find({ "jobStatus" : req.params.jobStatus },function(err, jobs) {
+        if (err)
+            res.send(err);
+        else
+            res.send(JSON.stringify(jobs,null,5));
+    });
+};
+
 
 // Find all jobs
 router.findOne = (req, res) => {
