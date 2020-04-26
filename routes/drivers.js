@@ -40,7 +40,7 @@ router.findOne = (req, res) => {
 }
 
 // Find one driver
-router.findByEmail = (req, res) => {
+router.findOneByEmail = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     Driver.find({ "email" : req.params.email },function(err, drivers) {
