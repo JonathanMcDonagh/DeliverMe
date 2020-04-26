@@ -53,7 +53,8 @@ app.delete('/jobs/:id', jobs.deleteJob); //Deletes job
 // routes for drivers
 // GET
 app.get("/drivers", drivers.findAll);
-app.get("/drivers/:id", drivers.findOne);
+app.get("/driver/:id", drivers.findOne);
+app.get("/driver/:email", drivers.findByEmail);
 
 // POST
 app.post("/drivers/register", drivers.addDriver);

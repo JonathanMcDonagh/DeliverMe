@@ -39,6 +39,22 @@ router.findOne = (req, res) => {
     });
 }
 
+// Find one driver
+router.findByEmail = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    Driver.find({ "email" : req.params.email },function(err, drivers) {
+        if (err) {
+            res.json({message: 'Driver NOT Found!', errmsg : err});
+        } else if (drivers.length === 0) {
+            res.json({message: "No drivers can be found"})
+        }
+        else {
+            res.send(JSON.stringify(drivers, null, 5));
+        }
+    });
+}
+
 // To add a driver
 router.addDriver = (req, res) => {
     res.setHeader("Content-Type", "application/json")
