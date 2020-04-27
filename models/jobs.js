@@ -5,7 +5,7 @@ let DeliverMeSchema = new mongoose.Schema({
             name : String,
             deliveryRequest : String,
             place : String,
-            deliveryFee: String,
+            deliveryFee : String,
             dropOffLocation : String,
             dropOffTime: String,
             phoneNum: String,
