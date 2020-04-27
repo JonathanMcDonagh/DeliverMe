@@ -23,12 +23,12 @@
     "test": "^0.6.0",
     "bcryptjs": "latest",
     "jsonwebtoken": "latest",
-    "dotenv": "latest"
-  },
-  "devDependencies": {
+    "dotenv": "latest",
     "chai": "^4.0.2",
     "cross-env": "^6.0.3",
     "mocha": "^6.2.0",
     "supertest": "^4.0.2"
+  },
+  "devDependencies": {
   }
 }
