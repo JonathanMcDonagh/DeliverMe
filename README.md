@@ -5,7 +5,7 @@ Back-End MEVN Stack For College Final Year Project
 
 Name: Jonathan McDonagh
 
-Student Number: 20074520
+Grade: 74%
 
 ## App Description
 DeliverMe is built using the MVEN Stack for my Final Year Project. In the course 
@@ -30,7 +30,11 @@ Below Are Some Functional Requirements of the Web App
 
 ## Links.
 
+Github (Frontend): https://github.com/JonathanMcDonagh/DeliverMe-Vue
+
+Github (Bakend): https://github.com/JonathanMcDonagh/DeliverMe
+
+
 Heroku Hosting (Backend): https://deliverme-wit-fyp.herokuapp.com/
 
 Firebase Hosting (Frontend): https://deliverme-wit.web.app/
-
